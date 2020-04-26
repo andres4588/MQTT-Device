@@ -5,6 +5,8 @@
 #define MQTT_USER "Arduino"
 #define MQTT_PASSWORD "PASSWORD"
 
-// #define BROKER "192.168.43.1"
-#define BROKER "192.168.0.15"
+
+#define BROKER "192.168.0.18"
+#define REPORT_FREQ 20000
+
 

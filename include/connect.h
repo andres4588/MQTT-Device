@@ -1,7 +1,7 @@
-void connect(){
-  Serial.print("checking wifi...");
+void connect(Stream &uart, WiFiClient &wifi, MQTTClient &client){
+  uart.print("checking wifi...");
   while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(".");
+    uart.print(".");
     delay(1000);
   }
 
@@ -10,6 +10,6 @@ void connect(){
     uart.print(".");
     delay(1000);
   }
-  Serial.println("\nconnected!");
+  uart.println("\nconnected!");
   client.subscribe(String(MQTT_ID)+"/#");
 }

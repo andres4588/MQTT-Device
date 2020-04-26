@@ -1,43 +1,33 @@
-
-#include "Arduino.h"
-#include <constants.h>
-#include <mqtt_connect.h>
-#include <WiFi101.h>
+#include <Arduino.h>
+#include <WiFi.h>
 #include <MQTT.h>
-
+#include <constants.h>
+#include <connect.h>
 
 
 WiFiClient net;
 MQTTClient client;
 
-unsigned long lastMillis = 0;
+long reportTimer = millis();
+long alarmTimer = millis();
 
-
-void setup()
-{
-   Serial.begin(115200);
-  WiFi.begin(ssid, pass);
-
-  // Note: Local domain names (e.g. "Computer.local" on OSX) are not supported
-  // by Arduino. You need to set the IP address directly.
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(SSID, SSID_PASSWORD);
   client.begin(BROKER, net);
- 
-
-  connect();
+  connect(Serial, net, client);
 }
 
-void loop()
-{
-  
-   client.loop();
+void loop() {
+  client.loop();
+  delay(10);
 
   if (!client.connected()) {
-    connect();
+    connect(Serial, net, client);
   }
 
-  // publish a message roughly every second.
-  if (millis() - lastMillis > 1000) {
-    lastMillis = millis();
-    lient.publish(String(MQTT_ID)+"/report", "hola world"));
+  if(millis()-reportTimer >= REPORT_FREQ){
+    reportTimer=millis();
+    client.publish(String(MQTT_ID)+"/report", "Test Conexion");
   }
 }

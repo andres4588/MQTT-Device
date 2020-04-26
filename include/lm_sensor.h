@@ -1,4 +1,4 @@
-
+#include <input_device.h>
 class LmSensor: public InputDevice {
 private:
     uint8_t pin;
